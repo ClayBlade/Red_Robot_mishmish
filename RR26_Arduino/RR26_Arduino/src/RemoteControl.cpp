@@ -26,22 +26,22 @@ namespace Bluefruit
     int left_speed = 0;
     int right_speed = 0;
 
-    if (button_pressed[UP])
+    if (button_pressed[LEFT])
     { // Forward
       left_speed += 100;
       right_speed += 100;
     }
-    if (button_pressed[DOWN])
+    if (button_pressed[RIGHT])
     { // Backward
       left_speed -= 100;
       right_speed -= 100;
     }
-    if (button_pressed[LEFT])
+    if (button_pressed[UP])
     { // Turn left_speed
       left_speed -= 50;
       right_speed += 50;
     }
-    if (button_pressed[RIGHT])
+    if (button_pressed[DOWN])
     { // Turn right_speed
       left_speed += 50;
       right_speed -= 50;
@@ -69,17 +69,17 @@ namespace Bluefruit
     // Ex: move an arm when the button is pressed
     if (buttonPressedDown)
     {
-      RedRobot::SetServo(0, 180);
-      RedRobot::SetServo(1, 180);
+      RedRobot::SetServo(0, -180);
+      /*RedRobot::SetServo(1, 180);
       RedRobot::SetServo(2, 180);
-      RedRobot::SetServo(3, 180);
+      RedRobot::SetServo(3, 180);*/
     }
     else
     {
-      RedRobot::SetServo(0, 0);
+      RedRobot::SetServo(0, 0);/*
       RedRobot::SetServo(1, 0);
       RedRobot::SetServo(2, 0);
-      RedRobot::SetServo(3, 0);
+      RedRobot::SetServo(3, 0);*/
     }
   }
 
@@ -141,25 +141,25 @@ namespace RR_Controller
     int left_speed = 0;
     int right_speed = 0;
 
-    if (button_pressed[UP])
-    { // Forward
-      left_speed += 100;
-      right_speed += 100;
-    }
-    if (button_pressed[DOWN])
-    { // Backward
-      left_speed -= 100;
-      right_speed -= 100;
-    }
     if (button_pressed[LEFT])
-    { // Turn left_speed
+    { // Forward
       left_speed -= 50;
       right_speed += 50;
     }
     if (button_pressed[RIGHT])
-    { // Turn right_speed
+    { // Backward
       left_speed += 50;
       right_speed -= 50;
+    }
+    if (button_pressed[UP])
+    { // Turn left_speed
+      left_speed += 100;
+      right_speed += 100;
+    }
+    if (button_pressed[DOWN])
+    { // Turn right_speed
+      left_speed -= 100;
+      right_speed -= 100;
     }
 
     // Clamp and write speeds

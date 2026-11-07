@@ -11,61 +11,68 @@
 // Declare some global variables
 bool started; // boolean (true or false) to keep track of if we should start
 int counter;  // integer to hold a count value
-const int 
+const int IR0_pin = 37;
+const int IR1_pin = 38;
+const int IR2_pin = 39;
+const int IR3_pin = 40;
+int BLACK = 5000;
 
+
+            //#define LF0 37
+//#define LF1 38
+//#define LF2 39
+//#define LF3 40
 // This function runs ONCE, when the microcontroller boots up
 void setup() {
     // Initialize all components on the robot before doing any work
+  Serial.begin(9600);
+  Serial.println("test");
+  delay(2000);
   RedRobot::InitRedRobot();         // call this first
   RedRobot::InitDCMotors();
   RedRobot::InitServo();
   RedRobot::InitLineSensors();
-  RedRobot::InitAuton();            // call this to activate the AutonomousLoop
+  //RedRobot::InitAuton();            // call this to activate the AutonomousLoop
 
   // Initialize our variables
   started = false;
   counter = 0;
 }
 
+
+
 // This function runs over and over (in a loop) when you are in autonomous mode.
 // As an example, this code moves out of the starting box at start, and 
 // Look at RedRobot.h to see the robot interface: what functions you can call and how.
 void AutonomousLoop() { 
-    //To do:
-        //motor 2 left, motor 3 right
-        //Check Motor pins
-            //dir
-            //#define MOTOR0_PHASE 9
-            //#define MOTOR1_PHASE 10
-            //#define MOTOR2_PHASE 7
-            //#define MOTOR3_PHASE 8
-
-            //speed
-            //#define MOTOR0_EN 14
-            //#define MOTOR1_EN 43 // TXD0
-            //#define MOTOR2_EN 36
-            //#define MOTOR3_EN 35'''
-            //ranges from -100 to 100, sign is phase, magnitude is duty cycle
-        //Make code work for new IR sensor ~> Pinout for new IR sensor
-        //Black threshold
-        //noise threshold
-            //IR pins: GND/3x3, 3, 2, 1, 0
-        //Button/Timer to go from Auton -> Manual
-        
-    //simple plan obj:
-        //(orient pipe upwards first?)
-        //get out of zone
-        //follow line to trench
-        //push zone in
-
     if (!started) { // e.g. get out of the starting box
-        started = true;
+         started = true;
 
-        RedRobot::WriteDCMotor(2, 20); 
-        RedRobot::WriteDCMotor(3, 20);
-        //move forward at speed 20 for 1 second
-        delay(1000);
+         RedRobot::WriteDCMotor(2, -55); 
+         RedRobot::WriteDCMotor(3, 58);
+         //move forward at speed 20 for 1 second
+         delay(2500);
     }
+
+         RedRobot::WriteDCMotor(2, 0); 
+         RedRobot::WriteDCMotor(3, 0);
+    
+    //int IR0 = analogRead(IR0_pin);
+    uint16_t sensor_values[6];
+    RedRobot::ReadLineSensor(sensor_values);
+    int IR1 = sensor_values[1];
+    int IR2 = sensor_values[2];
+
+    //int IR3 = analogRead(IR3_pin)
+    
+    //Serial.print("IR1: ");
+    //Serial.println(IR1);
+    //Serial.print("IR2: ");
+    //Serial.println(IR2);
+    //Serial.println("-------");
+
+    //how to test for black threshold
+    //how to test for noise threshold
     
     // repeatedly move the servo and get in scoring position
     // remember that the below code will run repeatedly since we are in
@@ -77,13 +84,64 @@ void AutonomousLoop() {
     RedRobot::SetServo(2, 0);
     RedRobot::SetServo(3, 0);
 
-    // Print to the serial console to debug!
-    Serial.print("[AUTO] Running ");
-    Serial.print(counter);
-    Serial.println();
 
-    // increment the counter
-    counter = counter + 1;
+    int left_speed = 0;
+    int right_speed = 0;
+
+    // if(IR1 < BLACK && IR2 < BLACK)
+    // {
+    //     left_speed = 40;
+    //   right_speed = 40;
+    //     RedRobot::WriteDCMotor(2, constrain(left_speed, -100, 100));
+    //     RedRobot::WriteDCMotor(3, constrain(right_speed, -100, 100));
+    //   delay(100);
+    //  //IR1 = sensor_values[1];
+    //  //IR2 = sensor_values[2];
+ 
+    // }
+ 
+    // else if(IR2 < BLACK && IR1 > BLACK) //right one is on black, left one is white
+    // {
+    //   left_speed = 40;
+    //   right_speed = -40;
+    //     RedRobot::WriteDCMotor(2, constrain(left_speed, -100, 100));
+    //     RedRobot::WriteDCMotor(3, constrain(right_speed, -100, 100));
+    //   delay(100);
+    //  //IR1 = sensor_values[1];
+    //  //IR2 = sensor_values[2];
+
+    
+    // }
+
+    // else if(IR2 > BLACK && IR1 < BLACK) //right one is on white, left on is black
+    // {
+    //   left_speed = -40;
+    //   right_speed = 40;
+    //     RedRobot::WriteDCMotor(2, constrain(left_speed, -100, 100));
+    //     RedRobot::WriteDCMotor(3, constrain(right_speed, -100, 100));
+    //   delay(100);
+    //  //IR1 = sensor_values[1];
+    //  //IR2 = sensor_values[2];
+    // }
+    // else{
+    //      RedRobot::WriteDCMotor(2, constrain(0, -100, 100));
+    //     RedRobot::WriteDCMotor(3, constrain(0, -100, 100));
+    // }
+
+    // Serial.print("IR1: ");
+    // Serial.println(IR1);
+    // Serial.print("IR2: ");
+    // Serial.println(IR2);
+    // Serial.println("-------");
+  
+
+    // // Print to the serial console to debug!
+    // //Serial.print("[AUTO] Running ");
+    // //Serial.print(counter);
+    // //Serial.println();
+
+    // // increment the counter
+    // counter = counter + 1;
 }
 
 

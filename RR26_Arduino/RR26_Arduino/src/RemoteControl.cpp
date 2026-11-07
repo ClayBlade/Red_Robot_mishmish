@@ -1,6 +1,9 @@
 #include "../RedRobot.h"
-
+#include <Arduino.h>
 bool useTankDrive = false;
+
+extern void AutonomousLoop();
+
 
 namespace Bluefruit
 {
@@ -84,6 +87,7 @@ namespace Bluefruit
 
   void Button3_Pressed(bool buttonPressedDown)
   {
+    AutonomousLoop();
   }
 
   void Button4_Pressed(bool buttonPressedDown)

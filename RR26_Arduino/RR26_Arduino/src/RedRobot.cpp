@@ -487,8 +487,8 @@ bool IsRemoteControlled() {
 void loop() {
   arduinoLoopTask = xTaskGetCurrentTaskHandle();
 
-  if (!in_remote_control.load())
-    AutonomousLoop();
+  // if (!in_remote_control.load())
+  //   AutonomousLoop();
 
   // Give equal-priority tasks on this core (batteryLevelTask) time.
   taskYIELD();

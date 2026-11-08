@@ -92,6 +92,20 @@ namespace Bluefruit
 
   void Button4_Pressed(bool buttonPressedDown)
   {
+    // Ex: move an arm when the button is pressed
+    static bool servo_position = false; // true = servo is up, false = servo is down
+    if (buttonPressedDown)
+    {
+      servo_position = !servo_position; //flips the servo position
+      if(servo_position == true)
+      {
+        RedRobot::SetServo(1, -180); //servo_0 (right-side servo) goes up
+      }
+      else
+      {
+        RedRobot::SetServo(1, 0); //servo_0 (right-side servo) goes down
+      }
+    }
   }
 }
 
